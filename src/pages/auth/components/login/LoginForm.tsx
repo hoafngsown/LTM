@@ -35,13 +35,13 @@ export const LoginForm = (props: React.PropsWithChildren<ILoginFormProps>) => {
 
   const formik = useFormik<IFormValues>({
     initialValues: {
-      userName: "",
+      username: "",
       password: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       navigate(DASHBOARD_PATH)
-      // mutate(values);
+      mutate(values);
     },
   });
 
@@ -85,7 +85,7 @@ export const LoginForm = (props: React.PropsWithChildren<ILoginFormProps>) => {
               label="ID"
               formik={formik}
               type="text"
-              name="userName"
+              name="username"
               required
               isSubmitted={isSubmitted.current}
             />

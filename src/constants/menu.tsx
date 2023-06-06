@@ -333,7 +333,7 @@ export const MENU =
     },
     {
       title: "Settings",
-      icon: <img src="/images/icons/menu/dashboard.svg" alt="dashboards" />,
+      icon: <img src="/images/icons/menu/hotel.svg" alt="dashboards" />,
       url: SETTINGS,
       isActive: () => window.location.pathname === SETTINGS,
     },

@@ -35,17 +35,16 @@ interface ILoginPageProps { }
 
 export const LoginPage = (props: React.PropsWithChildren<ILoginPageProps>) => {
   const navigate = useNavigate();
-  // const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-  const token = getToken();
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-  const handleLoginSuccess = (result: LoginInfo, saveToken: boolean) => {
+  const handleLoginSuccess = (result: any, saveToken: boolean) => {
     if (saveToken) {
-      saveTokenToCookies(result.token);
+      saveTokenToCookies(result.tokens.accessToken);
     } else {
-      saveTokenToSession(result.token);
+      saveTokenToSession(result.tokens.accessToken);
     }
 
-    // setCurrentUser(result.admin);
+    setCurrentUser(result.user);
 
     // if (
     //   result?.admin?.role === RoleAdmin.ADMIN ||

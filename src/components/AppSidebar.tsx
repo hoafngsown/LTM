@@ -79,7 +79,7 @@ export default function AppSidebar() {
       <Drawer variant="permanent" open={open}>
         <DrawerHeader className="!justify-center !min-h-[95px]">
           {open ? (
-            <img className="mt-[1.5rem] mb-[1rem] w-[100px] h-[100px] rounded-[50%]" src="/logo2.jpg" alt="logo" />
+            <img className="mt-[1.5rem] mb-[1rem] w-[100px] h-[100px] rounded-[50%]" src="/logo.avif" alt="logo" />
           ) : (
             <IconButton sx={{ color: "#FFFFFF" }} onClick={handleDrawerOpen}>
               <CloseIcon />
