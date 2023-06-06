@@ -4,14 +4,15 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RecoilRoot } from "recoil";
+import { RecoilRoot, useRecoilState } from "recoil";
 import { renderAuthRoutes } from "./pages/auth";
 
 import Error404 from "@/pages/errors/404";
-import { LOGIN_PATH } from './constants';
+import { LOGIN_PATH, currentUserState } from './constants';
 import { LoginPage } from './pages/auth/login';
 import Error403 from "./pages/errors/403";
 import { theme } from "./theme";
+import { getToken } from './utils';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,9 +24,11 @@ const queryClient = new QueryClient({
 });
 
 function Router() {
-  // const token = getToken();
-  // const hadToken = !!token;
-  // const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+  const token = getToken();
+  const hadToken = !!token;
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
+
+  console.log({ token, currentUser })
 
   // const { isFetching: isAdminFetching } = useQuery({
   //   refetchOnWindowFocus: false,
@@ -45,12 +48,12 @@ function Router() {
   //   return null;
   // }
 
-  // if (!token || !currentUser) {
-  //   if (!window.location.pathname.startsWith(LOGIN_PATH)) {
-  //     window.location.replace(LOGIN_PATH);
-  //     return null;
-  //   }
-  // }
+  if (!token || !currentUser) {
+    if (!window.location.pathname.startsWith(LOGIN_PATH)) {
+      window.location.replace(LOGIN_PATH);
+      return null;
+    }
+  }
 
   return (
     <BrowserRouter>

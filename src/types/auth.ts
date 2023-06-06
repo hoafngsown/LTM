@@ -8,6 +8,6 @@ export type AdminInfo = {
 };
 
 export type LoginInfo = {
-  admin: AdminInfo;
+  admin: any;
   token: string;
 };

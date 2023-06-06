@@ -69,7 +69,7 @@ export default function AppHeader(props: AppHeaderProps) {
       <AppBar position="fixed" sx={{ bgcolor: "#FFFFFF" }} open={props.open}>
         <Toolbar
           className={`${props.open ? "justify-between" : "justify-end"}`}
-          // className={"justify-end"}
+        // className={"justify-end"}
         >
           {props.open && (
             <IconButton
@@ -124,7 +124,7 @@ export default function AppHeader(props: AppHeaderProps) {
                     fontSize="small"
                   />
                 </ListItemIcon>
-                <ListItemText>ログアウト</ListItemText>
+                <ListItemText>Log out</ListItemText>
               </MenuItem>
             </Menu>
           </div>

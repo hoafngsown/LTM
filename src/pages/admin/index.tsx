@@ -3,7 +3,7 @@ import { API_PATH } from "@/api/path";
 import IconEdit from "@/assets/images/ic-edit.svg";
 import MyBreadcrumbs from "@/components/common/Breadcrumbs";
 import MyDialog from "@/components/common/Dialog";
-import { AdminInfo } from "@/types/admin";
+import { AdminInfo, User } from "@/types/admin";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -71,14 +71,14 @@ const Admin = () => {
   //   },
   // });
 
-  const handleOpenDialog = (adminInfo: AdminInfo) => {
-    const adminInforEdit = {
-      name: adminInfo.name,
-      password: adminInfo.passwordDecode,
-      userName: adminInfo.userName,
-      id: adminInfo.id,
-    };
-    setAdminInfoEdit(adminInforEdit);
+  const handleOpenDialog = (adminInfo: User) => {
+    // const adminInforEdit = {
+    //   name: adminInfo.name,
+    //   password: adminInfo.passwordDecode,
+    //   userName: adminInfo.userName,
+    //   id: adminInfo.id,
+    // };
+    // setAdminInfoEdit(adminInforEdit);
     setIsOpenDialog(true);
   };
   const handleCloseDialog = () => {

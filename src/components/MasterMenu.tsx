@@ -29,8 +29,6 @@ export function hasChildren(item) {
 }
 
 const MenuItem = ({ item, drawerOpen }) => {
-  // const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-  // return <Component item={item} drawerOpen={drawerOpen} />;
   return <SingleLevel item={item} drawerOpen={drawerOpen} />;
 };
 
@@ -81,91 +79,6 @@ const SingleLevel = ({ item, drawerOpen }) => {
     </ListItem>
   )
 };
-
-// const MultiLevel = ({ item, drawerOpen }) => {
-//   const { items: children } = item;
-//   const [open, setOpen] = useState(false);
-//   const handleClick = () => {
-//     setOpen((prev) => !prev);
-//   };
-
-//   return item?.isEnable ? (
-//     <div className="mb-2">
-//       <ListItem
-//         button
-//         onClick={() => drawerOpen && handleClick()}
-//         onMouseOver={() => !drawerOpen && handleClick()}
-//         disablePadding
-//         sx={{ display: "block" }}
-//       >
-//         <ListItemButton
-//           sx={{
-//             minHeight: 48,
-//             justifyContent: drawerOpen ? "initial" : "center",
-//             p: 0,
-//             mx: 2,
-//             my: 1,
-//             bgcolor: item.isActive?.() ? "rgba(84, 83, 83, 0.3)" : "",
-//             backgroundClip: "content-box",
-//             "&:hover": {
-//               bgcolor: "rgba(84, 83, 83, 0.3)",
-//             },
-//           }}
-//         >
-//           <ListItemIcon
-//             className={`${item.isActive?.() ? "menu-icon-active" : ""}`}
-//             sx={{
-//               minWidth: 21,
-//               margin: drawerOpen ? 1 : "auto",
-//               justifyContent: "center",
-//               color: "#C8C7C7",
-//             }}
-//           >
-//             {item.icon}
-//           </ListItemIcon>
-//           <ListItemText
-//             primaryTypographyProps={{
-//               color: item.isActive?.() ? "#556EE6" : "#C8C7C7",
-//             }}
-//             primary={item.title}
-//             sx={{ opacity: drawerOpen ? 1 : 0 }}
-//           />
-//           {drawerOpen ? (
-//             <ListItemIcon
-//               sx={{
-//                 justifyContent: "end",
-//                 color: item.isActive?.() ? "#556EE6" : "#C8C7C7",
-//               }}
-//             >
-//               {open ? <ExpandLessSharpIcon /> : <ExpandMoreIcon />}
-//             </ListItemIcon>
-//           ) : (
-//             ""
-//           )}
-//         </ListItemButton>
-//       </ListItem>
-//       {drawerOpen && (
-//         <Collapse in={open} timeout="auto" unmountOnExit>
-//           <List component="div" disablePadding>
-//             {children.map((child, key) =>
-//               hasChildren(child) || child?.isEnable ? (
-//                 <MenuItem
-//                   key={"MultiLevel" + key}
-//                   item={child}
-//                   drawerOpen={drawerOpen}
-//                 />
-//               ) : (
-//                 <></>
-//               )
-//             )}
-//           </List>
-//         </Collapse>
-//       )}
-//     </div>
-//   ) : (
-//     <></>
-//   );
-// };
 
 const StyledMasterMenu = styled.div`
   // .MuiListItemIcon-root,

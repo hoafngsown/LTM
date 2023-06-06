@@ -1,5 +1,6 @@
-export const BASE_API = "api/cms"
+export const BASE_API = "/";
 export const API_PATH = {
-  LOGIN: `/api/admin/login`,
+  LOGIN: `/auth/login`,
   ADMIN: `${BASE_API}/admin`,
-}
+  USER: `user`,
+};

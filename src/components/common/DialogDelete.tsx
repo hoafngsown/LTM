@@ -15,8 +15,8 @@ export interface DialogProps {
   content?: string;
 }
 
-const DEFAULT_BUTTON_NAME: string = "削除する";
-const DEFAULT_CONTENT: string = "本当に削除しますか？";
+const DEFAULT_BUTTON_NAME: string = "Ok";
+const DEFAULT_CONTENT: string = "Are you sure to delete this user";
 
 export default function DialogDelete(props: DialogProps) {
   return (
@@ -63,7 +63,7 @@ export default function DialogDelete(props: DialogProps) {
             }}
             onClick={props.onClose}
           >
-            戻る
+            Cancel
           </Button>
           <Button
             sx={{

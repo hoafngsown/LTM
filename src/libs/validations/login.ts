@@ -1,10 +1,10 @@
-import * as yup from "yup"
+import * as yup from "yup";
 
 export const validationSchema = yup.object({
-  userName: yup.string().required("IDを入力してください"),
+  username: yup.string().required("IDを入力してください"),
   password: yup
     .string()
-    .min(8, "8文字以上で入力してください")
-    .max(16, "16文字以内で入力してください")
-    .required("パスワードを入力してください"),
-})
+    .min(4, "Min length password is 4")
+    .max(16, "Max length password is 16")
+    .required("Please enter password !"),
+});
