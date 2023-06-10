@@ -26,9 +26,7 @@ const queryClient = new QueryClient({
 function Router() {
   const token = getToken();
   const hadToken = !!token;
-  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
-
-  console.log({ token, currentUser })
+  const [currentUser] = useRecoilState(currentUserState);
 
   // const { isFetching: isAdminFetching } = useQuery({
   //   refetchOnWindowFocus: false,
@@ -48,7 +46,7 @@ function Router() {
   //   return null;
   // }
 
-  if (!token || !currentUser) {
+  if (!hadToken) {
     if (!window.location.pathname.startsWith(LOGIN_PATH)) {
       window.location.replace(LOGIN_PATH);
       return null;

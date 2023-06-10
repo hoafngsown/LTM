@@ -1,205 +1,176 @@
 
-const columns = ["NO", "名前", "ID", "パスワード", "ホテル", "操作"];
+import IconDelete from "@/assets/images/ic-garbage.svg";
+import { ILocation } from "@/types/admin";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
-const DEFAULT_ITEM_PER_PAGE = 10;
+import { deleteApi, getApi } from '@/api/api';
+import { API_PATH } from '@/api/path';
+import DialogDelete from '@/components/common/DialogDelete';
+import { LocationTypo } from '@/components/common/LocationTypo';
+import { SUCCESS } from '@/constants/messages';
+import { useState } from 'react';
+import { useMutation, useQuery } from 'react-query';
+import { toast } from 'react-toastify';
+import PopupDetailLocation from './components/PopupDetailLocation';
 
-export enum DialogAction {
-  POST = "post",
-  PUT = "put",
-}
+const columns = ['Name', 'Description', 'Address', 'Rating', 'Review Count', 'Action'];
 
-const DEFAULT_EDIT_MANAGE_FORM = {
-  name: "",
-  password: "",
-  id: -1,
-  userName: "",
-  hotelId: -1,
+const Locations = () => {
+  const [isOpenDialogDetail, setIsOpenDialogDetail] = useState(false);
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+  const [idDelete, setIdDelete] = useState<string>('');
+
+  const [locationDetail, setLocationDetail] = useState<ILocation>();
+
+  const handleOpenDialog = () => {
+    setIsOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setIsOpenDialog(false);
+  };
+  const handleOpenDialogDetail = () => {
+    setIsOpenDialogDetail(true);
+  };
+  const handleCloseDialogDetail = () => {
+    setIsOpenDialogDetail(false);
+  };
+
+  const getListLocation = async () => {
+    try {
+      const { data } = await getApi(API_PATH.LOCATION, {})
+      return data;
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+
+  const { data, refetch: refetchListUser } = useQuery({
+    queryKey: ["get_list_location"],
+    queryFn: async () => await getListLocation(),
+    keepPreviousData: true,
+    onError(error: any) {
+      console.log({ error });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: () => deleteApi(`${API_PATH.LOCATION}/${idDelete}`, {}),
+    onSuccess: () => {
+      toast.success(SUCCESS.DELETE_USER_SUCCESS, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      handleCloseDialog();
+      refetchListUser();
+    },
+    onError(error: any) {
+      console.log({ error });
+    },
+  });
+
+  const onConfirmDelete = () => {
+    if (!idDelete) return;
+    deleteMutation.mutate();
+  }
+
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <span className="font-medium text-base leading-5">Manage Location</span>
+      </div>
+      {/* TABLE CONTAINER */}
+      <div className="bg-white mt-6 p-6 rounded-[5px]">
+        <div className="mt-6">
+          <div className="tableContainer">
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ width: "100%", height: "100%" }}
+                aria-label="customized table"
+              >
+                <TableHead className="tableHeader">
+                  <TableRow>
+                    {columns.map((col: string, index: number) => (
+                      <TableCell
+                        key={index}
+                        align={index === columns.length - 1 ? "right" : "left"}
+                      >
+                        {col}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody className="tableBody">
+                  {data &&
+                    data?.data &&
+                    data?.data.length > 0 &&
+                    (data.data as ILocation[]).map(
+                      (row: ILocation, index: number) => (
+                        <TableRow key={index} sx={{ m: 0, p: 0 }}>
+                          <TableCell
+                            className="w-[300px] underline cursor-pointer"
+                            component="th"
+                            scope="row"
+                            align="left"
+                            onClick={() => {
+                              setLocationDetail(row)
+                              handleOpenDialogDetail()
+                            }}
+                          >
+                            {row?.name}
+                          </TableCell>
+                          <TableCell align="left">{row?.description}</TableCell>
+                          <TableCell align="left" className="w-[300px]">
+                            <LocationTypo
+                              country={row?.address?.country?.name}
+                              province={row?.address?.province?.name}
+                              district={row?.address?.district?.name}
+                              ward={row?.address?.ward?.name}
+                              streetAddress={row?.address?.streetAddress}
+                            />
+                          </TableCell>
+                          <TableCell className="w-[205px]" align="left">
+                            <div className="flex items-center justify-between ">
+                              <span >reviews : {row.reviewCount}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="w-[205px]" align="left">
+                            <div className="flex items-center justify-between ">
+                              <span>{row?.reviewCount}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell align="right" className="w-[80px] ">
+                            <button onClick={() => {
+                              handleOpenDialog()
+                              setIdDelete(row.id)
+                            }}>
+                              <img src={IconDelete} alt="ic-edit" />
+                            </button>
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
+      </div>
+      <DialogDelete open={isOpenDialog} onClose={handleCloseDialog} doAction={onConfirmDelete} />
+      <PopupDetailLocation isOpen={isOpenDialogDetail} onClose={handleCloseDialogDetail} location={locationDetail as ILocation} />
+    </>
+  );
 };
 
-const Manage = () => {
-  // const [isOpenDialog, setIsOpenDialog] = useState(false);
-  // const [togglePasswordIndex, setTogglePasswordIndex] = useState(-1);
-
-  // const [manageInfoEdit, setManageInfoEdit] = useState<Partial<ManageInfoPut>>(
-  //   JSON.parse(JSON.stringify(DEFAULT_EDIT_MANAGE_FORM))
-  // );
-
-  // const { mutate } = useMutation({
-  //   mutationFn: (info: Partial<ManageInfoPut>) =>
-  //     putApi(`${API_PATH.ADMIN}/${info.id}`, {
-  //       name: info.name,
-  //       userName: info.userName,
-  //       password: info.password,
-  //       hotelId: +info.hotelId,
-  //       role: RoleAdmin.MANAGE,
-  //     }),
-  //   onSuccess: () => {
-  //     toast.success(SUCCESS.UPDATE_SUCCESS, {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "light",
-  //     });
-  //     refetch();
-  //     handleCloseDialog();
-  //   },
-  //   onError(error: any) {
-  //     console.log({ error });
-  //   },
-  // });
-
-  // const handleDialog = (info: ManageInfo) => {
-  //   const params: Partial<ManageInfoPut> = {
-  //     name: info?.name,
-  //     userName: info?.userName,
-  //     password: info?.passwordDecode,
-  //     id: info?.id,
-  //     hotelId: info?.hotel?.id,
-  //     hotelName: info?.hotel?.name,
-  //   };
-  //   setManageInfoEdit(params);
-  //   handleOpenDialog();
-  // };
-
-  // const handleOpenDialog = () => {
-  //   setIsOpenDialog(true);
-  // };
-
-  // const handleCloseDialog = () => {
-  //   setIsOpenDialog(false);
-  // };
-
-  // const handleEditManageInfo = useCallback(
-  //   (info: Partial<ManageInfoPut>) => {
-  //     mutate(info);
-  //   },
-  //   [mutate]
-  // );
-
-  // const handleTogglePassword = (index: number) => {
-  //   if (index === togglePasswordIndex) return setTogglePasswordIndex(-1);
-  //   setTogglePasswordIndex(index);
-  // };
-
-  // const getListManage = async () => {
-  //   const res = await getApi(API_PATH.ADMIN, {
-  //     page: 1,
-  //     itemsPerPage: DEFAULT_ITEM_PER_PAGE,
-  //     role: RoleAdmin.MANAGE,
-  //   });
-  //   return res?.data;
-  // };
-
-  // const { isLoading, data, isFetching, refetch } = useQuery({
-  //   queryKey: ["manage"],
-  //   queryFn: async () => await getListManage(),
-  //   keepPreviousData: true,
-  // });
-
-  return <div></div>
-  // (
-  //   <>
-  //     <div className="flex items-center justify-between">
-  //       <span className="font-medium text-base leading-5">マネージャー</span>
-  //       <MyBreadcrumbs routes={manageRoutes} />
-  //     </div>
-  //     <div className="bg-white mt-6 p-6 rounded-[5px]">
-  //       {/* TABLE CONTAINER */}
-  //       <div className="tableContainer">
-  //         <TableContainer component={Paper}>
-  //           <Table
-  //             sx={{ width: "100%", height: "100%" }}
-  //             aria-label="customized table"
-  //           >
-  //             <TableHead className="tableHeader">
-  //               <TableRow>
-  //                 {columns.map((col: string, index: number) => (
-  //                   <TableCell
-  //                     key={index}
-  //                     align={index === columns.length - 1 ? "right" : "left"}
-  //                   >
-  //                     {col}
-  //                   </TableCell>
-  //                 ))}
-  //               </TableRow>
-  //             </TableHead>
-  //             <TableBody className="tableBody">
-  //               {data &&
-  //                 data?.data &&
-  //                 data?.data?.length > 0 &&
-  //                 (data.data as ManageInfo[])?.map(
-  //                   (row: ManageInfo, index: number) => (
-  //                     <TableRow key={index} sx={{ m: 0, p: 0 }}>
-  //                       <TableCell
-  //                         className="w-[72px]"
-  //                         component="th"
-  //                         scope="row"
-  //                         align="left"
-  //                       >
-  //                         {index + 1}
-  //                       </TableCell>
-  //                       <TableCell align="left">{row?.name}</TableCell>
-
-  //                       <TableCell align="left" className="w-[205px]">
-  //                         {row?.userName}
-  //                       </TableCell>
-  //                       <TableCell align="left" className="w-[250px]">
-  //                         <div className="flex items-center justify-between ">
-  //                           <span>
-  //                             {togglePasswordIndex === index
-  //                               ? row?.passwordDecode
-  //                               : hidePassword(row?.passwordDecode)}
-  //                           </span>
-  //                           <IconButton
-  //                             aria-label="toggle password visibility"
-  //                             onClick={() => handleTogglePassword(index)}
-  //                           >
-  //                             {togglePasswordIndex === index ? (
-  //                               <Visibility fontSize="small" />
-  //                             ) : (
-  //                               <VisibilityOff fontSize="small" />
-  //                             )}
-  //                           </IconButton>
-  //                         </div>
-  //                       </TableCell>
-  //                       <TableCell align="left" className="w-[250px]">
-  //                         {row?.hotel?.name}
-  //                       </TableCell>
-  //                       <TableCell align="right" className="w-[80px]">
-  //                         <button onClick={() => handleDialog(row)}>
-  //                           <img src={IconEdit} alt="ic-edit" />
-  //                         </button>
-  //                       </TableCell>
-  //                     </TableRow>
-  //                   )
-  //                 )}
-  //             </TableBody>
-  //           </Table>
-  //         </TableContainer>
-  //       </div>
-  //     </div>
-  //     <MyDialog
-  //       open={isOpenDialog}
-  //       onClose={handleCloseDialog}
-  //       doAction={() => { }}
-  //       title="マネージャー"
-  //       isShowAction={false}
-  //     >
-  //       <div>
-  //         <EditManageForm
-  //           initialData={manageInfoEdit}
-  //           onSubmit={handleEditManageInfo}
-  //           onClose={handleCloseDialog}
-  //         />
-  //       </div>
-  //     </MyDialog>
-  //     {isLoading || isFetching ? <Spinner /> : ""}
-  //   </>
-  // );
-};
-
-export default Manage;
+export default Locations;

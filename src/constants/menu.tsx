@@ -1,5 +1,5 @@
 import {
-  DASHBOARD_PATH, MANAGE_REQUEST, SETTINGS
+  DASHBOARD_PATH, MANAGE_LOCATION, SETTINGS
 } from "@/constants";
 
 // export const renderMenu = (role: number, hotelId: number) => {
@@ -326,10 +326,10 @@ export const MENU =
       isActive: () => window.location.pathname === DASHBOARD_PATH,
     },
     {
-      title: "Manage Request",
+      title: "Manage Location",
       icon: <img src="/images/icons/menu/dashboard.svg" alt="dashboards" />,
-      url: MANAGE_REQUEST,
-      isActive: () => window.location.pathname === MANAGE_REQUEST,
+      url: MANAGE_LOCATION,
+      isActive: () => window.location.pathname === MANAGE_LOCATION,
     },
     {
       title: "Settings",

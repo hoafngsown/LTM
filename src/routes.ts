@@ -1,10 +1,9 @@
-import { DASHBOARD_PATH, MANAGE_REQUEST, SETTINGS } from "@/constants/paths"
-import React from "react"
-import { ADMIN_PATH, MANAGE } from "./constants/paths"
+import { DASHBOARD_PATH, MANAGE_LOCATION, SETTINGS } from "@/constants/paths";
+import React from "react";
 
-const AdminPage = React.lazy(() => import("./pages/admin"))
-const ManagePage = React.lazy(() => import("./pages/manage"))
-const Dashboard = React.lazy(() => import("./pages/dashboards"))
+const AdminPage = React.lazy(() => import("./pages/admin"));
+const ManageLocationPage = React.lazy(() => import("./pages/manage"));
+const Dashboard = React.lazy(() => import("./pages/dashboards"));
 
 const routes = [
   {
@@ -12,14 +11,14 @@ const routes = [
     element: Dashboard,
   },
   {
-    path: MANAGE_REQUEST,
-    element: ManagePage,
+    path: MANAGE_LOCATION,
+    element: ManageLocationPage,
   },
 
   {
     path: SETTINGS,
     element: AdminPage,
   },
-]
+];
 
-export default routes
+export default routes;
