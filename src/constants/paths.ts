@@ -1,14 +1,14 @@
-export const AUTH_PATH = "auth"
-export const LOGIN_PATH = "/login"
-export const ADMIN_PATH = "admin"
-export const USER_PATH = "user"
-export const DRUG_PATH = "drug"
-export const DASHBOARD_PATH = "/"
-export const MANAGE_REQUEST = "/manage-request"
-export const SETTINGS = "/settings"
-export const ADMIN = "/admin"
-export const MANAGE = "/manage"
-export const RECEPTIONIST = "/receptionist"
+export const AUTH_PATH = "auth";
+export const LOGIN_PATH = "/login";
+export const ADMIN_PATH = "admin";
+export const USER_PATH = "user";
+export const DRUG_PATH = "drug";
+export const DASHBOARD_PATH = "/";
+export const MANAGE_LOCATION = "/locations";
+export const SETTINGS = "/settings";
+export const ADMIN = "/admin";
+export const MANAGE = "/manage";
+export const RECEPTIONIST = "/receptionist";
 export const HOTEL_PATH = {
   LIST: "/hotel",
   CO_CO_HOTEL_TIARA: {
@@ -45,4 +45,4 @@ export const HOTEL_PATH = {
   TASK_LIST: "/hotel/:hotel/task/task-list",
   WORK_LIST: "/hotel/:hotel/task/work-list",
   ROOM: "/:hotel/room-list",
-}
+};
