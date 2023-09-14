@@ -1,4 +1,3 @@
-
 import IconDelete from "@/assets/images/ic-garbage.svg";
 import { ILocation } from "@/types/admin";
 import Paper from "@mui/material/Paper";
@@ -9,22 +8,29 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import { deleteApi, getApi } from '@/api/api';
-import { API_PATH } from '@/api/path';
-import DialogDelete from '@/components/common/DialogDelete';
-import { LocationTypo } from '@/components/common/LocationTypo';
-import { SUCCESS } from '@/constants/messages';
-import { useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { toast } from 'react-toastify';
-import PopupDetailLocation from './components/PopupDetailLocation';
+import { deleteApi, getApi } from "@/api/api";
+import { API_PATH } from "@/api/path";
+import DialogDelete from "@/components/common/DialogDelete";
+import { LocationTypo } from "@/components/common/LocationTypo";
+import { SUCCESS } from "@/constants/messages";
+import { useState } from "react";
+import { useMutation, useQuery } from "react-query";
+import { toast } from "react-toastify";
+import PopupDetailLocation from "./components/PopupDetailLocation";
 
-const columns = ['Name', 'Description', 'Address', 'Rating', 'Review Count', 'Action'];
+const columns = [
+  "Name",
+  "Description",
+  "Address",
+  "Rating",
+  "Review Count",
+  "Action",
+];
 
 const Locations = () => {
   const [isOpenDialogDetail, setIsOpenDialogDetail] = useState(false);
   const [isOpenDialog, setIsOpenDialog] = useState(false);
-  const [idDelete, setIdDelete] = useState<string>('');
+  const [idDelete, setIdDelete] = useState<string>("");
 
   const [locationDetail, setLocationDetail] = useState<ILocation>();
 
@@ -43,7 +49,7 @@ const Locations = () => {
 
   const getListLocation = async () => {
     try {
-      const { data } = await getApi(API_PATH.LOCATION, {})
+      const { data } = await getApi(API_PATH.LOCATION, {});
       return data;
     } catch (error) {
       console.log({ error });
@@ -83,12 +89,12 @@ const Locations = () => {
   const onConfirmDelete = () => {
     if (!idDelete) return;
     deleteMutation.mutate();
-  }
+  };
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <span className="font-medium text-base leading-5">Manage Location</span>
+        <span className="font-medium text-base leading-5">Quản Lí Kết Quả</span>
       </div>
       {/* TABLE CONTAINER */}
       <div className="bg-white mt-6 p-6 rounded-[5px]">
@@ -124,8 +130,8 @@ const Locations = () => {
                             scope="row"
                             align="left"
                             onClick={() => {
-                              setLocationDetail(row)
-                              handleOpenDialogDetail()
+                              setLocationDetail(row);
+                              handleOpenDialogDetail();
                             }}
                           >
                             {row?.name}
@@ -142,7 +148,7 @@ const Locations = () => {
                           </TableCell>
                           <TableCell className="w-[205px]" align="left">
                             <div className="flex items-center justify-between ">
-                              <span >reviews : {row.reviewCount}</span>
+                              <span>reviews : {row.reviewCount}</span>
                             </div>
                           </TableCell>
                           <TableCell className="w-[205px]" align="left">
@@ -151,10 +157,12 @@ const Locations = () => {
                             </div>
                           </TableCell>
                           <TableCell align="right" className="w-[80px] ">
-                            <button onClick={() => {
-                              handleOpenDialog()
-                              setIdDelete(row.id)
-                            }}>
+                            <button
+                              onClick={() => {
+                                handleOpenDialog();
+                                setIdDelete(row.id);
+                              }}
+                            >
                               <img src={IconDelete} alt="ic-edit" />
                             </button>
                           </TableCell>
@@ -167,8 +175,16 @@ const Locations = () => {
           </div>
         </div>
       </div>
-      <DialogDelete open={isOpenDialog} onClose={handleCloseDialog} doAction={onConfirmDelete} />
-      <PopupDetailLocation isOpen={isOpenDialogDetail} onClose={handleCloseDialogDetail} location={locationDetail as ILocation} />
+      <DialogDelete
+        open={isOpenDialog}
+        onClose={handleCloseDialog}
+        doAction={onConfirmDelete}
+      />
+      <PopupDetailLocation
+        isOpen={isOpenDialogDetail}
+        onClose={handleCloseDialogDetail}
+        location={locationDetail as ILocation}
+      />
     </>
   );
 };

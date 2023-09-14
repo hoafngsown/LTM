@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
+import { currentUserState } from "@/constants";
 import { LoginForm } from "@/pages/auth/components/login";
+import { saveTokenToCookies, saveTokenToSession } from "@/utils";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { currentUserState, DASHBOARD_PATH, LOGIN_PATH } from "@/constants";
-import { getToken, saveTokenToCookies, saveTokenToSession } from "@/utils";
-import { LoginInfo } from "@/types/auth";
 // import { RoleAdmin } from "@/enums";
 // import { LIST_HOTEL } from "@/constants/hotel";
 
@@ -31,44 +30,25 @@ const StyledLoginPage = styled.div`
   }
 `;
 
-interface ILoginPageProps { }
+interface ILoginPageProps {}
 
 export const LoginPage = (props: React.PropsWithChildren<ILoginPageProps>) => {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-  const handleLoginSuccess = (result: any, saveToken: boolean) => {
-    if (saveToken) {
-      saveTokenToCookies(result.tokens.accessToken);
-    } else {
-      saveTokenToSession(result.tokens.accessToken);
-    }
-
-    setCurrentUser(result.user);
-
-    // if (
-    //   result?.admin?.role === RoleAdmin.ADMIN ||
-    //   result?.admin?.role === RoleAdmin.MANAGE
-    // ) {
-    //   return navigate(DASHBOARD_PATH, { replace: true });
-    // }
-
-    // const hotelName = LIST_HOTEL.find(
-    //   (item) => item?.id === result?.admin?.hotelId
-    // )?.name;
-
-    // navigate(`/hotel/${hotelName}/task/overview`, { replace: true });
-  };
-
-  // useEffect(() => {
-  //   if (
-  //     window.location.pathname.startsWith(LOGIN_PATH) &&
-  //     token &&
-  //     currentUser
-  //   ) {
-  //     navigate(DASHBOARD_PATH, { replace: true });
+  // const handleLoginSuccess = (result: any, saveToken: boolean) => {
+  //   if (saveToken) {
+  //     saveTokenToCookies(result.tokens.accessToken);
+  //   } else {
+  //     saveTokenToSession(result.tokens.accessToken);
   //   }
-  // }, []);
+
+  //   setCurrentUser(result.user);
+  // };
+
+  const handleLoginSuccess = (result: any, saveToken: boolean) => {
+    navigate("/");
+  };
 
   return (
     <StyledLoginPage>

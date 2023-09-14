@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const StyledLoginForm = styled.div`
   margin: 0 auto;
@@ -22,7 +22,7 @@ const StyledLoginForm = styled.div`
   }
 `;
 
-interface IFormValues extends Partial<any> { }
+interface IFormValues extends Partial<any> {}
 
 interface ILoginFormProps {
   onSuccess: (result: any, saveToken: boolean) => void;
@@ -31,16 +31,16 @@ interface ILoginFormProps {
 export const LoginForm = (props: React.PropsWithChildren<ILoginFormProps>) => {
   const isSubmitted = React.useRef(false);
   const [rememberPassword, setRememberPassword] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const formik = useFormik<IFormValues>({
     initialValues: {
       username: "",
       password: "",
     },
-    validationSchema: validationSchema,
+    // validationSchema: validationSchema,
     onSubmit: (values) => {
-      navigate(DASHBOARD_PATH)
+      navigate(DASHBOARD_PATH);
       mutate(values);
     },
   });
@@ -59,16 +59,9 @@ export const LoginForm = (props: React.PropsWithChildren<ILoginFormProps>) => {
 
   return (
     <StyledLoginForm>
-      <div className="text-center mb-11">
-        <img
-          className="logo inline-block"
-          src="/images/logo-login.avif"
-          alt="logo"
-        />
-      </div>
       <div>
         <h1 className="text-[2rem] text-center font-medium mb-[2.5rem]">
-          Login
+          Đăng Nhập
         </h1>
       </div>
       <form

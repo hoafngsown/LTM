@@ -1,4 +1,4 @@
-import { DASHBOARD_PATH, MANAGE_LOCATION, SETTINGS } from "@/constants/paths";
+import { DASHBOARD_PATH, REQUEST, RESULT_MANAGEMENT } from "@/constants/paths";
 import React from "react";
 
 const AdminPage = React.lazy(() => import("./pages/admin"));
@@ -11,13 +11,13 @@ const routes = [
     element: Dashboard,
   },
   {
-    path: MANAGE_LOCATION,
-    element: ManageLocationPage,
+    path: REQUEST,
+    element: AdminPage,
   },
 
   {
-    path: SETTINGS,
-    element: AdminPage,
+    path: RESULT_MANAGEMENT,
+    element: ManageLocationPage,
   },
 ];
 

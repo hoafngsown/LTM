@@ -1,3 +1,4 @@
+import FormPasswordField from "@/components/form/FormPasswordField";
 import FormTextField from "@/components/form/FormTextField";
 import { COLORS } from "@/constants";
 import { validationSchema } from "@/libs/validations/user";
@@ -45,7 +46,7 @@ function EditInformationForm(props: IEditInformationForm) {
         <div className="custom-input min-w-[550px]">
           <FormTextField
             key="firstName"
-            label="First Name"
+            label="Email"
             formik={formik}
             type="text"
             name="firstName"
@@ -55,25 +56,24 @@ function EditInformationForm(props: IEditInformationForm) {
         </div>
         <div className="custom-input">
           <FormTextField
-            key="lastName"
-            label="Last Name"
+            key="firstName"
+            label="Password"
             formik={formik}
             type="text"
-            name="lastName"
+            name="firstName"
             required
             isSubmitted={isSubmitted.current}
           />
         </div>
         <div>
           <FormTextField
-            key="phoneNumber"
-            label="Phone Number"
+            key="firstName"
+            label="Confirm Password"
             formik={formik}
             type="text"
-            name="phoneNumber"
+            name="firstName"
             required
             isSubmitted={isSubmitted.current}
-            isOnlyNumber
           />
         </div>
       </div>
